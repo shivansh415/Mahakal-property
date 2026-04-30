@@ -1,26 +1,477 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ================================================================
+   MAHAKAL PROPERTY — Design System
+   Luxury Real Estate · Dark editorial meets sky-high cinematic
+   ================================================================ */
 
+/* ── Fonts loaded via <link> in layout.tsx head ────────────────── */
+
+/* ── Tailwind v4 Theme ─────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-bg: #FFFFFF;
+  --color-bg-2: #F5F5F5;
+  --color-bg-3: #EEEEEE;
+  --color-surface: #FFFFFF;
+  --color-gold: #C9A45C;
+  --color-gold-light: #E0BA75;
+  --color-gold-dim: #A68241;
+  --color-off-white: #FAFAFA;
+  --color-text-main: #111111;
+  --color-text-muted: #555555;
+  --color-text-dim: #888888;
+
+  /* Fonts */
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Spacing */
+  --spacing-section: clamp(60px, 8vw, 120px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── CSS Custom Properties ─────────────────────────────────────── */
+:root {
+  /* Core Palette */
+  --bg:           #FFFFFF;
+  --bg-2:         #F5F5F5;
+  --bg-3:         #EEEEEE;
+  --surface:      #FFFFFF;
+
+  /* Sky / Cinematic */
+  --sky-dawn:     #E8F0F8;
+  --sky-gold:     #F8EEDC;
+  --cloud-white:  rgba(255,255,255,0.95);
+
+  /* Accent */
+  --gold:         #C9A45C;
+  --gold-light:   #E0BA75;
+  --gold-dim:     #A68241;
+  --white:        #FFFFFF;
+  --off-white:    #FAFAFA;
+
+  /* Text */
+  --text:         #111111;
+  --text-muted:   #555555;
+  --text-dim:     #888888;
+
+  /* Utility */
+  --border:       rgba(201,164,92,0.25);
+  --border-dim:   rgba(17,17,17,0.08);
+  --glass:        rgba(255,255,255,0.7);
+
+  /* Type Scale */
+  --text-hero:    clamp(80px, 16vw, 240px);
+  --text-display: clamp(48px, 8vw, 110px);
+  --text-title:   clamp(28px, 4vw, 56px);
+  --text-lead:    clamp(17px, 1.8vw, 22px);
+  --text-body:    16px;
+  --text-sm:      14px;
+  --text-xs:      12px;
+
+  /* Letter Spacing */
+  --ls-wide:      0.08em;
+  --ls-hero:      -0.01em;
+}
+
+/* ── Base Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  font-size: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* ── Scrollbar Styling ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* ── Typography Utilities ──────────────────────────────────────── */
+.font-display {
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.font-body {
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Hero Section Styles ───────────────────────────────────────── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50%       { transform: translateY(6px); opacity: 0.9; }
+}
+
+.hero-inner img {
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.hero-sky,
+.hero-building,
+.cloud-left,
+.cloud-right,
+.cloud-bottom {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── Marquee ───────────────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Preloader ─────────────────────────────────────────────────── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.preloader-sky {
+  background: linear-gradient(
+    180deg,
+    #C8D8E8 0%,
+    #D0D8E0 30%,
+    #E8D5B0 70%,
+    #D4C4A0 100%
+  );
+}
+
+/* ── Shimmer Loading Animation ─────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #F0F0F0 25%,
+    #E8E8E8 50%,
+    #F0F0F0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ── Premium Button Styles ─────────────────────────────────────── */
+.btn-gold-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  padding: 16px 42px;
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+  background: transparent;
+  box-shadow: 0 4px 14px rgba(201, 164, 92, 0.0);
+}
+
+.btn-gold-outline:hover {
+  background: var(--gold);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 164, 92, 0.3);
+}
+
+.btn-gold-fill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+  color: #FFFFFF;
+  padding: 16px 42px;
+  border-radius: 999px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 14px rgba(201, 164, 92, 0.2);
+}
+
+.btn-gold-fill:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(201, 164, 92, 0.4);
+}
+
+/* ── Glass Card ────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Section Padding ───────────────────────────────────────────── */
+.section-padding {
+  padding: clamp(60px, 8vw, 120px) clamp(20px, 5vw, 80px);
+}
+
+/* ── Custom Cursor (desktop only) ──────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(201,169,110,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+.cursor-ring.hover-link {
+  width: 60px;
+  height: 60px;
+  border-color: var(--gold);
+}
+
+.cursor-ring.hover-button {
+  width: 60px;
+  height: 60px;
+  background: rgba(201,169,110,0.15);
+  border-color: var(--gold);
+}
+
+/* ── Responsive Helpers ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* ── WhatsApp Button ───────────────────────────────────────────── */
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.whatsapp-btn:hover {
+  background: #20BA5C;
+  transform: translateY(-1px);
+}
+
+/* ── Modal / Drawer ────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.drawer-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-radius: 24px 24px 0 0;
+  z-index: 1001;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* ── Admin Panel Styles ────────────────────────────────────────── */
+.admin-sidebar {
+  background: #0D0D0D;
+  border-right: 1px solid var(--border-dim);
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: var(--text-muted);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s, background 0.3s;
+  border-left: 3px solid transparent;
+}
+
+.admin-nav-item:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+}
+
+.admin-nav-item.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: rgba(201,169,110,0.06);
+}
+
+/* ── Form Inputs ───────────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
+}
+
+.form-input::placeholder {
+  color: var(--text-dim);
+}
+
+.form-label {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Stat Cards (Admin) ────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.3s;
+}
+
+.stat-card:hover {
+  border-color: var(--border);
+}
+
+/* ── Toaster Override ──────────────────────────────────────────── */
+[data-sonner-toast] {
+  font-family: "Inter", sans-serif !important;
 }
