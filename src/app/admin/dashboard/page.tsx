@@ -7,7 +7,7 @@ import { config } from '@/lib/config'
 export default function AdminDashboard() {
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
-  const [stats, setStats] = useState({ properties: 0, active: 0, enquiries: 0, agreements: 0 })
+  const [stats, setStats] = useState({ properties: 0, active: 0, enquiries: 0 })
   const [enquiries, setEnquiries] = useState<Array<{ id: string; name: string; phone: string; property_title: string; created_at: string }>>([])
 
   // Auth guard — only runs client-side after mount
@@ -24,17 +24,15 @@ export default function AdminDashboard() {
 
     async function fetchStats() {
       try {
-        const [propRes, activeRes, enqRes, agrRes] = await Promise.all([
+        const [propRes, activeRes, enqRes] = await Promise.all([
           supabase.from('properties').select('id', { count: 'exact', head: true }),
           supabase.from('properties').select('id', { count: 'exact', head: true }).eq('is_active', true),
           supabase.from('enquiries').select('id', { count: 'exact', head: true }),
-          supabase.from('agreements').select('id', { count: 'exact', head: true }),
         ])
         setStats({
           properties: propRes.count || 0,
           active: activeRes.count || 0,
           enquiries: enqRes.count || 0,
-          agreements: agrRes.count || 0,
         })
 
         const { data } = await supabase
@@ -63,7 +61,6 @@ export default function AdminDashboard() {
     { label: 'Total Properties', value: stats.properties, icon: '🏠' },
     { label: 'Active Listings', value: stats.active, icon: '✅' },
     { label: 'Total Enquiries', value: stats.enquiries, icon: '📩' },
-    { label: 'Agreements', value: stats.agreements, icon: '📄' },
   ]
 
   return (

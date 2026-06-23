@@ -94,7 +94,6 @@ export const config = {
       { label: 'Dashboard', href: '/admin/dashboard', icon: 'grid' },
       { label: 'Properties', href: '/admin/dashboard/properties', icon: 'home' },
       { label: 'Reels', href: '/admin/dashboard/reels', icon: 'film' },
-      { label: 'Agreements', href: '/admin/dashboard/agreements', icon: 'file' },
     ],
   },
 } as const
